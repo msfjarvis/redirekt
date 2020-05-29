@@ -1,5 +1,5 @@
-export const BASE_URL = 'https://msfjarvis.dev/'
-export const GITHUB_USERNAME = 'msfjarvis'
+const BASE_URL = 'https://msfjarvis.dev/'
+const GITHUB_USERNAME = 'msfjarvis'
 
 export async function handleRequest(request: Request): Promise<Response> {
   const relURL = request.url.replace(BASE_URL, '')
