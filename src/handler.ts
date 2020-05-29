@@ -3,7 +3,7 @@ const GITHUB_USERNAME = 'msfjarvis'
 
 export async function handleRequest(request: Request): Promise<Response> {
   const relURL = request.url.replace(BASE_URL, '')
-  const URLparts: Array<string> = relURL.split('/')
+  const URLparts = relURL.split('/')
   if (URLparts[0] == 'gcp') {
     return Response.redirect(
       `https://github.com/${GITHUB_USERNAME}/${URLparts[1]}/commit/${URLparts[2]}`,
