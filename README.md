@@ -7,6 +7,7 @@ A dead simple and very stupid Cloudflare Worker that does straightforward redire
 ```shell
 https://msfjarvis.dev/g/redirekt => https://github.com/msfjarvis/redirekt
 https://msfjarvis.dev/g/redirekt/8436184361 => https://github.com/msfjarvis/redirekt/commit/8436184361
+https://download.msfjarvis.dev/adblock => https://dl.msfjarvis.dev/adblock
 ```
 
 ## How to use
