@@ -11,6 +11,8 @@ export async function handleRequest(request: Request): Promise<Response> {
   const URLparts = relURL.split('/')
   if (URLparts[0] === 'g') {
     switch (URLparts.length) {
+      case 1:
+        return Response.redirect(`https://github.com/${GITHUB_USERNAME}`, 301)
       case 2:
         return Response.redirect(
           `https://github.com/${GITHUB_USERNAME}/${URLparts[1]}`,
