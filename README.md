@@ -12,6 +12,6 @@ https://download.msfjarvis.dev/adblock => https://dl.msfjarvis.dev/adblock
 
 ## How to use
 
-To use this, follow the Worker documentation to setup wrangler, then create a new app using this repository as the template.
+This bit of code is very personalized to my needs, so there's no 1-2-3 steps to just make it work for you. I've abstracted away some of the 'personalization' aspect to easily changeable variables so it is easier to make this fit your needs.
 
-In `src/handler.ts`, change the `BASE_URL` and `GITHUB_USERNAME` properties to match you, then publish the worker with wrangler.
+Follow the Worker documentation to setup wrangler, then create a new app using this repository as the template. `src/handler.ts` has the real logic for this worker. It's fairly simple, so hack away as per your needs and then use `wrangler publish` to deploy.
