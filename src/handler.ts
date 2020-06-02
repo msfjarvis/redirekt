@@ -25,5 +25,5 @@ export async function handleRequest(request: Request): Promise<Response> {
         break
     }
   }
-  return new Response(`Illegal redirect path: ${relURL}`)
+  return fetch(request)
 }
