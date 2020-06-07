@@ -1,25 +1,46 @@
 const BASE_URL = 'https://msfjarvis.dev/'
 const DOWNLOAD_URL = 'https://download.msfjarvis.dev/'
+const DOWNLOAD_DEST_URL = 'https://dl.msfjarvis.dev/'
 const GITHUB_USERNAME = 'msfjarvis'
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`
 
 export async function handleRequest(request: Request): Promise<Response> {
-  if (request.url.includes(DOWNLOAD_URL)) {
-    const relURL = request.url.replace(DOWNLOAD_URL, '')
-    return Response.redirect(`https://dl.msfjarvis.dev/${relURL}`, 301)
+  if (request.url.startsWith(DOWNLOAD_URL)) {
+    return redirectDownload(request, DOWNLOAD_URL, DOWNLOAD_DEST_URL)
+  } else if (request.url.startsWith(BASE_URL)) {
+    return redirectGithub(request, BASE_URL, GITHUB_URL)
+  } else {
+    return fetch(request)
   }
-  const relURL = request.url.replace(BASE_URL, '')
-  const URLparts = relURL.split('/')
-  switch (URLparts[0]) {
+}
+
+async function redirectDownload(
+  request: Request,
+  sourceDomain: string,
+  destinationDomain: string,
+): Promise<Response> {
+  return Response.redirect(
+    request.url.replace(sourceDomain, destinationDomain),
+    301,
+  )
+}
+
+async function redirectGithub(
+  request: Request,
+  baseDomain: string,
+  githubUrl: string,
+): Promise<Response> {
+  const urlParts = request.url.replace(baseDomain, '').split('/')
+  switch (urlParts[0]) {
     case 'g':
-      switch (URLparts.length) {
+      switch (urlParts.length) {
         case 1:
-          return Response.redirect(`${GITHUB_URL}`, 301)
+          return Response.redirect(`${githubUrl}`, 301)
         case 2:
-          return Response.redirect(`${GITHUB_URL}/${URLparts[1]}`, 301)
+          return Response.redirect(`${githubUrl}/${urlParts[1]}`, 301)
         case 3:
           return Response.redirect(
-            `${GITHUB_URL}/${URLparts[1]}/commit/${URLparts[2]}`,
+            `${githubUrl}/${urlParts[1]}/commit/${urlParts[2]}`,
             301,
           )
       }
