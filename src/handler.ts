@@ -36,7 +36,7 @@ export async function handleRequest(request: Request): Promise<Response> {
 async function sendPayID(request: Request): Promise<Response> {
   switch (request.url.split('/').reverse()[0]) {
     case 'harsh':
-      return new Response(JSON.stringify(PAYID_DATA.harsh))
+      return new Response(JSON.stringify(PAYID_DATA.harsh, null, 2))
   }
   return fetch(request)
 }
