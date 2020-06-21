@@ -5,15 +5,40 @@ const GITHUB_USERNAME = 'msfjarvis'
 const APS_SLUG = 'Android-Password-Store/Android-Password-Store'
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`
 const APS_GITHUB_URL = `https://github.com/${APS_SLUG}`
+const PAYID_DATA = {
+  harsh: {
+    addresses: [
+      {
+        paymentNetwork: 'BTC',
+        environment: 'MAINNET',
+        addressDetailsType: 'CryptoAddressDetails',
+        addressDetails: {
+          address: '1LbHbfTq1ZtE8u3qipCTJTcJYptvzc54aB',
+        },
+      },
+    ],
+    payId: 'harsh$msfjarvis.dev',
+  },
+}
 
 export async function handleRequest(request: Request): Promise<Response> {
-  if (request.url.startsWith(DOWNLOAD_URL)) {
+  if (request.headers.get('Accept') == 'application/btc-mainnet+json') {
+    return sendPayID(request)
+  } else if (request.url.startsWith(DOWNLOAD_URL)) {
     return redirectDownload(request, DOWNLOAD_URL, DOWNLOAD_DEST_URL)
   } else if (request.url.startsWith(BASE_URL)) {
     return redirectGithub(request, BASE_URL, GITHUB_URL, APS_GITHUB_URL)
   } else {
     return fetch(request)
   }
+}
+
+async function sendPayID(request: Request): Promise<Response> {
+  switch (request.url.split('/').reverse()[0]) {
+    case 'harsh':
+      return new Response(JSON.stringify(PAYID_DATA.harsh))
+  }
+  return fetch(request)
 }
 
 async function redirectDownload(
