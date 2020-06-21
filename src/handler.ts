@@ -81,7 +81,6 @@ async function redirectGithub(
         case 3:
           return Response.redirect(`${apsUrl}/issues/${urlParts[2]}`, 301)
       }
-    default:
-      return fetch(request)
   }
+  return fetch(request)
 }
