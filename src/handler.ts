@@ -27,7 +27,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   } else if (request.url.startsWith(DOWNLOAD_URL)) {
     return redirectDownload(request, DOWNLOAD_URL, DOWNLOAD_DEST_URL)
   } else if (request.url.startsWith(BASE_URL)) {
-    return redirectGithub(request, BASE_URL, GITHUB_URL, APS_GITHUB_URL)
+    return redirectGitHub(request, BASE_URL, GITHUB_URL, APS_GITHUB_URL)
   } else {
     return fetch(request)
   }
@@ -52,7 +52,7 @@ async function redirectDownload(
   )
 }
 
-async function redirectGithub(
+async function redirectGitHub(
   request: Request,
   baseDomain: string,
   githubUrl: string,
