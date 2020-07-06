@@ -13,7 +13,7 @@
   "license": "MIT OR Apache-2.0",
   "devDependencies": {
     "prettier": "^2.0.5",
-    "source-map-loader": "^1.0.0",
+    "source-map-loader": "^1.0.1",
     "source-map-support": "^0.5.19",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
