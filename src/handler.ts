@@ -73,6 +73,7 @@ async function redirectGitHub(
           )
       }
     case 'ga':
+    case 'aps':
       switch (urlParts.length) {
         case 1:
           return Response.redirect(apsUrl, 301)
