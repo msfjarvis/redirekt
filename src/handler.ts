@@ -25,9 +25,9 @@ export async function handleRequest(request: Request): Promise<Response> {
   if (request.headers.get('Accept') == 'application/btc-mainnet+json') {
     return sendPayID(request)
   } else if (request.url.startsWith(DOWNLOAD_URL)) {
-    return redirectDownload(request, DOWNLOAD_URL, DOWNLOAD_DEST_URL)
+    return redirectDownload(request)
   } else if (request.url.startsWith(BASE_URL)) {
-    return redirectGitHub(request, BASE_URL, GITHUB_URL, APS_GITHUB_URL)
+    return redirectGitHub(request)
   } else {
     return fetch(request)
   }
@@ -41,34 +41,25 @@ async function sendPayID(request: Request): Promise<Response> {
   return fetch(request)
 }
 
-async function redirectDownload(
-  request: Request,
-  sourceDomain: string,
-  destinationDomain: string,
-): Promise<Response> {
+async function redirectDownload(request: Request): Promise<Response> {
   return Response.redirect(
-    request.url.replace(sourceDomain, destinationDomain),
+    request.url.replace(DOWNLOAD_URL, DOWNLOAD_DEST_URL),
     301,
   )
 }
 
-async function redirectGitHub(
-  request: Request,
-  baseDomain: string,
-  githubUrl: string,
-  apsUrl: string,
-): Promise<Response> {
-  const urlParts = request.url.replace(baseDomain, '').split('/')
+async function redirectGitHub(request: Request): Promise<Response> {
+  const urlParts = request.url.replace(BASE_URL, '').split('/')
   switch (urlParts[0]) {
     case 'g':
       switch (urlParts.length) {
         case 1:
-          return Response.redirect(githubUrl, 301)
+          return Response.redirect(GITHUB_URL, 301)
         case 2:
-          return Response.redirect(`${githubUrl}/${urlParts[1]}`, 301)
+          return Response.redirect(`${GITHUB_URL}/${urlParts[1]}`, 301)
         case 3:
           return Response.redirect(
-            `${githubUrl}/${urlParts[1]}/commit/${urlParts[2]}`,
+            `${GITHUB_URL}/${urlParts[1]}/commit/${urlParts[2]}`,
             301,
           )
       }
@@ -76,11 +67,17 @@ async function redirectGitHub(
     case 'aps':
       switch (urlParts.length) {
         case 1:
-          return Response.redirect(apsUrl, 301)
+          return Response.redirect(APS_GITHUB_URL, 301)
         case 2:
-          return Response.redirect(`${apsUrl}/commit/${urlParts[1]}`, 301)
+          return Response.redirect(
+            `${APS_GITHUB_URL}/commit/${urlParts[1]}`,
+            301,
+          )
         case 3:
-          return Response.redirect(`${apsUrl}/issues/${urlParts[2]}`, 301)
+          return Response.redirect(
+            `${APS_GITHUB_URL}/issues/${urlParts[2]}`,
+            301,
+          )
       }
   }
   return fetch(request)
