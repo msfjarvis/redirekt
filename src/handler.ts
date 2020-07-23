@@ -1,6 +1,7 @@
 const BASE_URL = 'https://msfjarvis.dev/'
 const DOWNLOAD_URL = 'https://download.msfjarvis.dev/'
 const DOWNLOAD_DEST_URL = 'https://dl.msfjarvis.dev/'
+const STATS_URL = 'https://stats.msfjarvis.dev/'
 const GITHUB_USERNAME = 'msfjarvis'
 const APS_SLUG = 'Android-Password-Store/Android-Password-Store'
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`
@@ -29,6 +30,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   } else if (request.url.startsWith(BASE_URL)) {
     return redirectGitHub(request)
   } else {
+    await submitStats(request)
     return fetch(request)
   }
 }
@@ -49,6 +51,7 @@ async function redirectDownload(request: Request): Promise<Response> {
 }
 
 async function redirectGitHub(request: Request): Promise<Response> {
+  await submitStats(request)
   const urlParts = request.url.replace(BASE_URL, '').split('/')
   switch (urlParts[0]) {
     case 'g':
@@ -81,4 +84,8 @@ async function redirectGitHub(request: Request): Promise<Response> {
       }
   }
   return fetch(request)
+}
+
+async function submitStats(request: Request): Promise<Response> {
+  return fetch(`${STATS_URL}/view?url=${request.url}`)
 }
