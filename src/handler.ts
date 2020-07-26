@@ -31,7 +31,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   } else if (request.url.startsWith(BASE_URL)) {
     return redirectGitHub(request)
   } else {
-    if (BLACKLIST_REGEX.test(request.url)) {
+    if (!BLACKLIST_REGEX.test(request.url)) {
       await submitStats(request)
     }
     return fetch(request)
