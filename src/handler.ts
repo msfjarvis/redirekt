@@ -21,6 +21,7 @@ const PAYID_DATA = {
     payId: 'harsh$msfjarvis.dev',
   },
 }
+const BLACKLIST_REGEX = new RegExp('css|js$/');
 
 export async function handleRequest(request: Request): Promise<Response> {
   if (request.headers.get('Accept') == 'application/btc-mainnet+json') {
@@ -30,8 +31,15 @@ export async function handleRequest(request: Request): Promise<Response> {
   } else if (request.url.startsWith(BASE_URL)) {
     return redirectGitHub(request)
   } else {
-    await submitStats(request)
-    return fetch(request)
+    if (BLACKLIST_REGEX.test(request.url)) {
+      return fetch(request)
+    } else {
+      let res = await fetch(request)
+      if (res.status == 200) {
+        submitStats(request)
+      }
+      return res
+    }
   }
 }
 
