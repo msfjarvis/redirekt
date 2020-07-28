@@ -21,6 +21,7 @@ const PAYID_DATA = {
     payId: 'harsh$msfjarvis.dev',
   },
 }
+const DENYLIST_REGEX = new RegExp('css|ico|js|php|txt|webp|xml');
 
 export async function handleRequest(request: Request): Promise<Response> {
   if (request.headers.get('Accept') == 'application/btc-mainnet+json') {
@@ -30,7 +31,9 @@ export async function handleRequest(request: Request): Promise<Response> {
   } else if (request.url.startsWith(BASE_URL)) {
     return redirectGitHub(request)
   } else {
-    await submitStats(request)
+    if (!DENYLIST_REGEX.test(request.url)) {
+      await submitStats(request)
+    }
     return fetch(request)
   }
 }
