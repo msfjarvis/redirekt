@@ -4,17 +4,16 @@ const APS_SLUG = 'Android-Password-Store/Android-Password-Store'
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`
 const APS_GITHUB_URL = `https://github.com/${APS_SLUG}`
 
-export async function handleRequest(request: Request): Promise<Response> {
-  if (request.url.startsWith(BASE_URL)) {
-    return redirectGitHub(request)
+export async function handleRequest(event: FetchEvent): Promise<Response> {
+  if (event.request.url.startsWith(BASE_URL)) {
+    return redirectGitHub(event)
   } else {
-    return fetch(request)
+    return fetch(event.request)
   }
 }
 
-
-async function redirectGitHub(request: Request): Promise<Response> {
-  const urlParts = request.url.replace(BASE_URL, '').split('/')
+async function redirectGitHub(event: FetchEvent): Promise<Response> {
+  const urlParts = event.request.url.replace(BASE_URL, '').split('/')
   switch (urlParts[0]) {
     case 'g':
       switch (urlParts.length) {
@@ -44,5 +43,5 @@ async function redirectGitHub(request: Request): Promise<Response> {
           )
       }
   }
-  return fetch(request)
+  return fetch(event.request)
 }
