@@ -1,20 +1,43 @@
+import { getAssetFromKV } from '@cloudflare/kv-asset-handler'
+
 const BASE_URL = 'https://msfjarvis.dev/'
 const GITHUB_USERNAME = 'msfjarvis'
 const APS_SLUG = 'Android-Password-Store/Android-Password-Store'
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`
 const APS_GITHUB_URL = `https://github.com/${APS_SLUG}`
 
-export async function handleRequest(request: Request): Promise<Response> {
-  if (request.url.startsWith(BASE_URL)) {
-    return redirectGitHub(request)
-  } else {
-    return fetch(request)
+export async function handleRequest(event: FetchEvent): Promise<Response> {
+  return redirectGitHub(event)
+}
+
+async function getPageFromKV(event: FetchEvent): Promise<Response> {
+  const options = {}
+  try {
+    const page = await getAssetFromKV(event, options)
+    const response = new Response(page.body, page)
+    response.headers.set('X-XSS-Protection', '1; mode=block')
+    response.headers.set('X-Content-Type-Options', 'nosniff')
+    response.headers.set('X-Frame-Options', 'DENY')
+    response.headers.set('Referrer-Policy', 'unsafe-url')
+    response.headers.set('Feature-Policy', 'none')
+    return response
+  } catch (e) {
+    try {
+      let notFoundResponse = await getAssetFromKV(event, {
+        mapRequestToAsset: (req) =>
+          new Request(`${new URL(req.url).origin}/404.html`, req),
+      })
+      return new Response(notFoundResponse.body, {
+        ...notFoundResponse,
+        status: 404,
+      })
+    } catch (e) {}
+    return new Response(e.message || e.toString(), { status: 500 })
   }
 }
 
-
-async function redirectGitHub(request: Request): Promise<Response> {
-  const urlParts = request.url.replace(BASE_URL, '').split('/')
+async function redirectGitHub(event: FetchEvent): Promise<Response> {
+  const urlParts = event.request.url.replace(BASE_URL, '').split('/')
   switch (urlParts[0]) {
     case 'g':
       switch (urlParts.length) {
@@ -43,6 +66,7 @@ async function redirectGitHub(request: Request): Promise<Response> {
             301,
           )
       }
+      default:
+        return getPageFromKV(event)
   }
-  return fetch(request)
 }

@@ -18,5 +18,8 @@
     "ts-loader": "^8.0.11",
     "typescript": "^4.0.5",
     "webpack": "^5.5.1"
+  },
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "0.0.12"
   }
 }
