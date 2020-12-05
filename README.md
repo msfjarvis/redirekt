@@ -8,7 +8,9 @@ A dead simple and very stupid Cloudflare Worker that does straightforward redire
 https://msfjarvis.dev/g => https://github.com/msfjarvis
 https://msfjarvis.dev/g/redirekt => https://github.com/msfjarvis/redirekt
 https://msfjarvis.dev/g/redirekt/8436184361 => https://github.com/msfjarvis/redirekt/commit/8436184361
-https://download.msfjarvis.dev/adblock => https://dl.msfjarvis.dev/adblock
+https://msfjarvis.dev/aps => https://github.com/android-password-store/Android-Password-Store
+https://msfjarvis.dev/aps/f56086cd78e8 => https://github.com/android-password-store/Android-Password-Store/commit/f56086cd78e8
+https://msfjarvis.dev/issue/1232 => https://github.com/Android-Password-Store/Android-Password-Store/issues/1232
 ```
 
 ## How to use
