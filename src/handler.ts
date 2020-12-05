@@ -1,6 +1,5 @@
 import { getAssetFromKV } from '@cloudflare/kv-asset-handler'
 
-const BASE_URL = 'https://msfjarvis.dev/'
 const GITHUB_USERNAME = 'msfjarvis'
 const APS_SLUG = 'Android-Password-Store/Android-Password-Store'
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`
