@@ -15,6 +15,9 @@ async function getPageFromKV(event: FetchEvent): Promise<Response> {
   const options = {}
   try {
     const page = await getAssetFromKV(event, options)
+    if (page === null) {
+      throw new Error("No page found, short-circuit to 404 page");
+    }
     const response = new Response(page.body, page)
     response.headers.set('X-XSS-Protection', '1; mode=block')
     response.headers.set('X-Content-Type-Options', 'nosniff')
