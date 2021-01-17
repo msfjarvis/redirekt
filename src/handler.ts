@@ -52,6 +52,11 @@ async function redirectGitHub(event: FetchEvent): Promise<Response> {
             `${GITHUB_URL}/${urlParts[1]}/commit/${urlParts[2]}`,
             301,
           )
+        case 4:
+          return Response.redirect(
+            `${GITHUB_URL}/${urlParts[1]}/issues/${urlParts[3]}`,
+            301,
+          )
       }
     case 'aps':
       switch (urlParts.length) {
