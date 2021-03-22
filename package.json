@@ -20,6 +20,6 @@
     "webpack": "^5.25.1"
   },
   "dependencies": {
-    "@cloudflare/kv-asset-handler": "0.1.0"
+    "@cloudflare/kv-asset-handler": "0.1.1"
   }
 }
