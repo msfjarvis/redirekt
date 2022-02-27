@@ -1,7 +1,7 @@
-import { handleRequest } from './handler'
+import { handleRequest } from "./handler";
 
-addEventListener('fetch', (event) => {
+addEventListener("fetch", (event) => {
   if (event instanceof FetchEvent) {
-    event.respondWith(handleRequest(event))
+    event.respondWith(handleRequest(event));
   }
-})
+});
