@@ -30,7 +30,7 @@ pub async fn main(_req: Request, env: Env, _ctx: worker::Context) -> Result<Resp
 
     return if let Ok(kv) = env.kv("BINDING") {
         let mut result = String::new();
-        result.push_str("<html><head><title>Stats page</title></head><body><table><tr><th>URL</th><th>Count</th></tr>");
+        result.push_str("<html><head><title>Stats page</title><style>table, th, td { border: 1px solid black; };</style></head><body><table><tr><th>URL</th><th>Count</th></tr>");
         for key in list_keys(&kv, "stats_".to_string()).await {
             if let Some(value) = kv.get(&key.name).cache_ttl(600).text().await.unwrap_or_else(|_| None) {
                 result.push_str(&format!(
